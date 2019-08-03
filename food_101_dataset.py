@@ -4,8 +4,7 @@ import json
 import numpy as np
 from chainer.datasets import LabeledImageDataset
 
-
-
+from dataset import FoodDataset
 
 # these images is not suited for our purpose
 BLACKLIST = [
@@ -36,47 +35,53 @@ def load_annotations(dataset_dir, mode):
             if path in BLACKLIST:
                 # ignore
                 continue
-            path = os.path.join(dataset_dir, "images", path+IMG_EXT)
+            path = os.path.join(dataset_dir, "images", path + IMG_EXT)
             pairs.append((path, food_id))
-    
-    name2idx={name:idx for idx,name in idx2name.items()}
-    annotations={
-        "pairs":pairs,
-        "name2idx":name2idx,
-        "idx2name":idx2name,
+
+    name2idx = {name: idx for idx, name in idx2name.items()}
+    annotations = {
+        "pairs": pairs,
+        "name2idx": name2idx,
+        "idx2name": idx2name,
     }
     return annotations
 
 
-class Food101Dataset(LabeledImageDataset):
-    def __init__(self, dataset_dir, mode="train"):
+class Food101BaseDataset(LabeledImageDataset):
+    def __init__(self, dataset_dir, mode="train", imsize=(224, 224)):
+        mode = mode
         annotations = load_annotations(dataset_dir, mode)
+        super(Food101BaseDataset, self).__init__(annotations["pairs"])
         self.mode = mode
-        super(Food101Dataset, self).__init__(annotations["pairs"])
+        self.imsize = imsize
         self.idx2name = annotations["idx2name"]
         self.name2idx = annotations["name2idx"]
-        
-def get_food101_dataset(dataset_dir,mode="train"):
-    return Food101Dataset(dataset_dir,mode=mode)
 
-if __name__=="__main__":
+
+def get_food101_dataset(dataset_dir, **params):
+    base = Food101BaseDataset(dataset_dir, **params)
+    return FoodDataset(base)
+
+
+if __name__ == "__main__":
     import random
-
     from chainercv.visualizations import vis_image
     from matplotlib import pyplot as plt
+
     # specify dataset directory
     dataset_dir = os.path.expanduser("~/dataset/food-101")
-    food101_dataset = get_food101_dataset(dataset_dir, mode="train")
+    params = {
+        "mode": "train",
+        "imsize": (224, 224),
+    }
+    food101_dataset = Food101BaseDataset(dataset_dir, **params)
+
     sample = np.random.randint(0, len(food101_dataset), size=100)
-    i=random.randint(0,len(food101_dataset))
-    example = food101_dataset.get_example(i)
-
-    img, food_idx = example
+    i = random.randint(0, len(food101_dataset))
+    img, food_idx = example = food101_dataset.get_example(i)
     name = food101_dataset.idx2name[int(food_idx)]
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
+
+    ax = vis_image(img)
     ax.set_title(name)
-    vis_image(img, ax)
-    plt.show()
 
-
+    plt.show(ax)
