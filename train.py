@@ -26,7 +26,7 @@ from chainer.training import extensions
 from chainer.training.triggers import MinValueTrigger
 import numpy as np
 
-from food_101_dataset import get_food101_dataset
+from food101_dataset import get_food101_dataset
 from utils import save_args, parse_device_list
 
 
