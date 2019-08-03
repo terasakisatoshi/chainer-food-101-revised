@@ -102,6 +102,11 @@ def main(args):
         trigger=snapshot_interval
     )
 
+    trainer.extend(extensions.PrintReport(
+        ['epoch', 'main/loss', 'validation/main/loss',
+         'main/accuracy', 'validation/main/accuracy', 'elapsed_time']),
+        call_before_training=True)
+    
     if extensions.PlotReport.available():
         trainer.extend(
             extensions.PlotReport(
@@ -111,13 +116,13 @@ def main(args):
             ),
             trigger=snapshot_interval,
         )
-    trainer.extend(
-        extensions.PlotReport(
-            ['main/accuracy', 'validation/main/accuracy'],
-            'epoch', file_name='accuracy.png'
-        ),
-        trigger=snapshot_interval
-    )
+        trainer.extend(
+            extensions.PlotReport(
+                ['main/accuracy', 'validation/main/accuracy'],
+                'epoch', file_name='accuracy.png'
+            ),
+            trigger=snapshot_interval
+        )
 
     if args.resume:
         logger.info("resume trainer object from {}".format(args.resume))
@@ -134,7 +139,7 @@ def parse_args():
     parser.add_argument("--dataset", type=str, default=os.path.expanduser("~/dataset/food-101"),
                         help='path/to/food-101 default = %(default)s')
     parser.add_argument("--destination", default="trained", help="path/to/save/directory %(default)s")
-    parser.add_argument("--device", nargs='+', default=[-1],
+    parser.add_argument("--device", nargs='+', type=int, default=[0],
                         help="specify gpu id on training %(default)s -1 means use cpu")
     parser.add_argument("--batch_size", "-b", type=int, default=64, help="batch size per device %(default)s")
     parser.add_argument("--epoch", "-e", type=int, default=64, help="batch size per device %(default)s")
@@ -146,4 +151,5 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     set_random_seed(args)
+    print(args.device)
     main(args)
