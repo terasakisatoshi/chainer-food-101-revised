@@ -104,8 +104,7 @@ def main(args):
 
     trainer.extend(extensions.PrintReport(
         ['epoch', 'main/loss', 'validation/main/loss',
-         'main/accuracy', 'validation/main/accuracy', 'elapsed_time']),
-        call_before_training=True)
+         'main/accuracy', 'validation/main/accuracy', 'elapsed_time']))
     
     if extensions.PlotReport.available():
         trainer.extend(
