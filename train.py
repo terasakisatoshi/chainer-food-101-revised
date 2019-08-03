@@ -56,7 +56,7 @@ def main(args):
     dataset_dir = args.dataset
     imsize = (224, 224)
     logger.info("> load dataset from {}".format(dataset_dir))
-    train_set = get_food101_dataset(dataset_dir, mode="true", imsize=imsize)
+    train_set = get_food101_dataset(dataset_dir, mode="train", imsize=imsize)
     val_set = get_food101_dataset(dataset_dir, mode="val", imsize=imsize)
 
     logger.info("> make iterator")
@@ -105,7 +105,7 @@ def main(args):
     trainer.extend(extensions.PrintReport(
         ['epoch', 'main/loss', 'validation/main/loss',
          'main/accuracy', 'validation/main/accuracy', 'elapsed_time']))
-    
+
     if extensions.PlotReport.available():
         trainer.extend(
             extensions.PlotReport(
