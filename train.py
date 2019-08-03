@@ -141,7 +141,7 @@ def parse_args():
     parser.add_argument("--device", nargs='+', type=int, default=[0],
                         help="specify gpu id on training %(default)s -1 means use cpu")
     parser.add_argument("--batch_size", "-b", type=int, default=64, help="batch size per device %(default)s")
-    parser.add_argument("--epoch", "-e", type=int, default=64, help="batch size per device %(default)s")
+    parser.add_argument("--epoch", "-e", type=int, default=100, help="batch size per device %(default)s")
     parser.add_argument("--resume", type=str, default="", help="path/to/snapshot/of/trainer")
     args = parser.parse_args()
     return args
