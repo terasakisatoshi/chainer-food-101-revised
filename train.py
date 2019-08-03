@@ -51,19 +51,30 @@ def set_random_seed(args):
 
 
 def main(args):
+    logger.info("> begin setup")
+    chainer.config.cv_resize_backend = "cv2"
+    chainer.global_config.autotune = True
+    chainer.cuda.set_max_workspace_size(512 * 1024 * 1024)
+    chainer.config.cudnn_fast_batch_normalization = True
+
     logger.info("> show args info")
     save_args(args)
     dataset_dir = args.dataset
-    imsize = (224, 224)
+    imsize = (args.height, args.width)
+    logger.info("> imsize {}".format(imsize))
     logger.info("> load dataset from {}".format(dataset_dir))
     train_set = get_food101_dataset(dataset_dir, mode="train", imsize=imsize)
     val_set = get_food101_dataset(dataset_dir, mode="val", imsize=imsize)
 
+    logger.info("> training size {}".format(len(train_set)))
+    logger.info("> validation size {}".format(len(val_set)))
+
     logger.info("> make iterator")
-    train_iter = MultiprocessIterator(
-        train_set, args.batch_size)
+    train_iter = MultiprocessIterator(train_set, args.batch_size)
     val_iter = MultiprocessIterator(
-        val_set, args.batch_size, repeat=False, shuffle=False)
+        val_set, args.batch_size,
+        repeat=False, shuffle=False
+    )
 
     model_name = args.model
     logger.info("> setup mdoel {}".format(model_name))
@@ -140,6 +151,9 @@ def parse_args():
     parser.add_argument("--destination", default="trained", help="path/to/save/directory %(default)s")
     parser.add_argument("--device", nargs='+', type=int, default=[0],
                         help="specify gpu id on training %(default)s -1 means use cpu")
+    parser.add_argument("--height", type=int, default=224, help="input image height %(default)s")
+    parser.add_argument("--width", type=int, default=224, help="input image width %(default)s")
+
     parser.add_argument("--batch_size", "-b", type=int, default=64, help="batch size per device %(default)s")
     parser.add_argument("--epoch", "-e", type=int, default=100, help="batch size per device %(default)s")
     parser.add_argument("--resume", type=str, default="", help="path/to/snapshot/of/trainer")
