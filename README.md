@@ -162,13 +162,15 @@ $ git clone https://github.com/terasakisatoshi/chainer-food-101-revised.git
 $ python train.py
 ```
 
+This script will create `trained` directory (by default) will be created. this directory is going to store snapshot i.e. trainer object or model weights. you can add `--destination` option to specify the location.
+
 - If you like to train using multi gpu, please add `--device` option to specify which gpu use on training. For example
 
 ```
 $ python train.py --device 0 1
 ```
 
-- For more information e.g. how to configure batch size ..., just try:
+- For more information e.g. how to know to configure batch size ..., just try:
 
 ```
 $ python train.py --help
@@ -182,4 +184,6 @@ O.K.
 
 ```
 $ python predict.py
+# or specify the location of training objects
+$ python predict.py --trained /path/to/directory
 ```
