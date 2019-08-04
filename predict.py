@@ -72,8 +72,7 @@ def predict(args):
     indices = list(range(len(test_dataset)))
     num_iteration = len(indices) if args.sample < 0 else args.sample
     random.shuffle(indices)
-    with chainer.using_config('train', False),
-         chainer.function.no_backprop_mode():
+    with chainer.using_config('train', False), chainer.function.no_backprop_mode():
         for i in tqdm(indices[:num_iteration]):
             img, label = test_dataset.get_example(i)
             h = model.predictor(xp.expand_dims(xp.array(img), axis=0))
