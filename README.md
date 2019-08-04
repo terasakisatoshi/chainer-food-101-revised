@@ -146,6 +146,14 @@ For examle
 - Chainer(6.2.0), CuPy(6.2.0), ChainerCV(0.13.1)
   - Note that the vesion of Chainer and CuPy must be same.
 
+## clone this repository:
+
+```
+$ mkdir ~/work
+$ cd ~/work
+$ git clone https://github.com/terasakisatoshi/chainer-food-101-revised.git
+```
+
 ## Start training:
 
 - Just do it:
