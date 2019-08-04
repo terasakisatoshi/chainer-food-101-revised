@@ -11,6 +11,8 @@ import os
 import random
 
 import chainer
+
+chainer.config.cv_resize_backend = "cv2"
 import chainer.links as L
 import chainer.functions as F
 import numpy as np
@@ -104,12 +106,13 @@ def predict(args):
 def parse_argument():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "trained", type=str, help="path/to/snapshot e.g. trained")
+        "--trained", type=str, default="trained", help="path/to/snapshot e.g. %(default)s trained")
     parser.add_argument("--sample", type=int, default=-1,
-                        help="select num of --sample from test dataset to evaluate accuracy")
+                        help="select num of sample from test dataset to evaluate accuracy")
     parser.add_argument("--device", type=int, default=0,
                         help="specify GPU_ID. If negative, use CPU")
-    parser.add_argument("--dataset", type=str, default=os.path.expanduser("~/dataset/food-101"))
+    parser.add_argument("--dataset", type=str, default=os.path.expanduser("~/dataset/food-101"),
+                        help="/path/to/dataset %(default)s")
     args = parser.parse_args()
     return args
 
