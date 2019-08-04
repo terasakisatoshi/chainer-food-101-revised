@@ -3,7 +3,7 @@
 Classify category of food with Chainer
 
 - This is an implementation of food 101 Classification with Chainer
-- This repository is revesed version of my repository chainer-food-101. The old repository contains some bugs (Sorry my delay response...) and ugly implementation, so please use the revised repository instead of old one.
+- This repository is revised version of my repository [chainer-food-101](https://github.com/terasakisatoshi/chainer-food-101). The old repository contains some bugs (Sorry my delay response...) and ugly implementation, so please use the revised repository instead of old one.
 
 - The difference between old one is ...
    - Clean structured implementation
