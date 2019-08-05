@@ -70,8 +70,8 @@ def main():
     import random
     from chainercv.visualizations import vis_image
     from matplotlib import pyplot as plt
-    from food_101_dataset import get_food101_dataset
-    
+    from food101_dataset import get_food101_dataset
+
     dataset_dir = os.path.expanduser("~/dataset/food-101")
     food_dataset = get_food101_dataset(dataset_dir, mode="train")
     i = random.randint(0, len(food_dataset))
