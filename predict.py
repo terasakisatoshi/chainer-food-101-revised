@@ -21,6 +21,11 @@ from tqdm import tqdm
 from network_resnet import ResNet50
 from food101_dataset import get_food101_dataset
 
+def restore_args(destination):
+    json_file=os.path.join(destination,"args.json")
+    with open(json_file, 'r') as f:
+        args = json.load(f)
+    return args
 
 def find_latest(model_dir):
     files = glob(os.path.join(model_dir, "model_epoch_*.npz"))
@@ -37,11 +42,24 @@ def find_latest(model_dir):
     return latest
 
 
+def select_model(model_name):
+    if model_name == "resnet":
+        from network_resnet import ResNet50
+        model = ResNet50(num_classes=101)
+        model.disable_target_layers()
+    elif model_name == "mv2":
+        from network_mobilenet import MobileNetV2
+        model = MobileNetV2(101)
+    else:
+        NotImplementedError("This {} is not implemented".format(model_name))
+    return L.Classifier(model)
+
+
 def prepare_setting(args):
     latest_snapshot = find_latest(args.trained)
-
+    args_trained=restore_args(args.trained)
     logger.info("> restore snapshot from {}".format(latest_snapshot))
-    model = L.Classifier(ResNet50(num_classes=101))
+    model = select_model(args_trained["model"])
     chainer.serializers.load_npz(latest_snapshot, model)
     logger.info("> load test set")
     test_dataset = get_food101_dataset(args.dataset, mode="test")
