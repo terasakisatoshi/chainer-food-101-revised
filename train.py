@@ -35,6 +35,9 @@ def select_model(model_name):
         from network_resnet import ResNet50
         model = ResNet50(num_classes=101)
         model.disable_target_layers()
+    elif model_name == "mv2":
+        from network_mobilenet import MobileNetV2
+        model = MobileNetV2(101)
     else:
         NotImplementedError("This {} is not implemented".format(model_name))
     return L.Classifier(model)
@@ -144,7 +147,7 @@ def main(args):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", choices=["resnet", ], type=str, default="resnet")
+    parser.add_argument("--model", choices=["resnet", "mv2"], type=str, default="resnet")
     parser.add_argument("--seed", type=int, default=12345, help='seed for numpy cupy random module %(default)s')
     parser.add_argument("--dataset", type=str, default=os.path.expanduser("~/dataset/food-101"),
                         help='path/to/food-101 default = %(default)s')
