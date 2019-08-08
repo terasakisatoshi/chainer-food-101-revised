@@ -191,3 +191,9 @@ $ python predict.py --trained /path/to/directory
 ## Hard to train ??
 
 O.K. go to our [release page](https://github.com/terasakisatoshi/chainer-food-101-revised/releases/tag/v0.1.0)
+
+- mobilenetv2
+```
+top1 accuracy 0.7696237623762376
+top5 accuracy 0.9343762376237624
+```
