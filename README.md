@@ -1,6 +1,6 @@
 # chainer-food-101-revised
 
-Classify category of food with Chainer
+Classify category of food with [Chainer](https://chainer.org/)
 
 - This is an implementation of food 101 Classification with Chainer
 - This repository is revised version of my repository [chainer-food-101](https://github.com/terasakisatoshi/chainer-food-101). The old repository contains some bugs (Sorry my delay response...) and ugly implementation, so please use the revised repository instead of old one.
@@ -14,6 +14,8 @@ Classify category of food with Chainer
    - Multi GPU training is supported
      - `$ python train.py --device 0 1`
    - add notebook to observe dataset
+- You'll notice Chainer is easy to read/write even create Pythonic code rather than other Deep Learning Framework.
+
 
 # How to train
 
@@ -160,6 +162,10 @@ $ git clone https://github.com/terasakisatoshi/chainer-food-101-revised.git
 
 ```
 $ python train.py
+# or specify the location of training objects
+$ python train.py --model resnet
+# or
+$ python train.py --model mv2
 ```
 
 This script will create `trained` directory (by default) will be created. this directory is going to store snapshot i.e. trainer object or model weights. you can add `--destination` option to specify the location.
