@@ -19,7 +19,7 @@ def video(args):
     idx2name = dataset.base.idx2name
     model, xp, _ = prepare_setting(args)
 
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(args.camera)
     if cap.isOpened() is False:
         print("Error opening video stream or file")
     fps_time = 0
@@ -72,6 +72,7 @@ def parse_argument():
                         default=os.path.expanduser("~/dataset/food-101"))
     parser.add_argument("--device", type=int, default=-1,
                         help="specify GPU_ID. If negative, use CPU")
+    parser.add_argument("--camera", type=int, default=0, help="specify camera id")
     args = parser.parse_args()
     return args
 
