@@ -196,7 +196,7 @@ $ python predict.py --trained /path/to/directory
 
 ## Hard to train ??
 
-O.K. go to our [release page](https://github.com/terasakisatoshi/chainer-food-101-revised/releases/tag/v0.1.0)
+O.K. go to our [release page](https://github.com/terasakisatoshi/chainer-food-101-revised/releases)
 
 - ResNet50
 
