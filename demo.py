@@ -1,4 +1,9 @@
 import argparse
+import logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+logger.setLevel(logging.INFO)
+
 import os
 import time
 
@@ -21,9 +26,9 @@ def video(args):
 
     cap = cv2.VideoCapture(args.camera)
     if cap.isOpened() is False:
-        print("Error opening video stream or file")
+        raise Exception("Error opening video stream or file")
     fps_time = 0
-    with chainer.using_config('train', False), chainer.function.no_backprop_mode():
+    with chainer.using_config("train", False), chainer.function.no_backprop_mode():
         while cap.isOpened():
             ret_val, img = cap.read()
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -44,14 +49,14 @@ def video(args):
                 prediction = prediction[0].data
             top_ten = np.argsort(-prediction)[:10]
             end = time.time()
-            print("Elapsed", end - start)
+            logger.info("Elapsed {}".format(end - start))
             blank = np.zeros((inH, 2 * inW, 3)).astype(img.dtype)
             for rank, label_idx in enumerate(top_ten):
                 score = prediction[label_idx]
                 name = idx2name[label_idx]
-                print('{:>3d} {:>6.2f}% {}'.format(
+                logger.info("{:>3d} {:>6.2f}% {}".format(
                     rank + 1, score * 100, name))
-                cv2.putText(blank, '{:>3d} {:>6.2f}% {}'.format(
+                cv2.putText(blank, "{:>3d} {:>6.2f}% {}".format(
                     rank + 1, prediction[label_idx] * 100, idx2name[label_idx]),
                             (10, 20 * (rank + 2)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
             cv2.putText(blank, "FPS: %f" % (1.0 / (time.time() - fps_time)),
@@ -77,6 +82,6 @@ def parse_argument():
     return args
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parse_argument()
     video(args)
