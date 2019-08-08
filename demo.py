@@ -36,7 +36,7 @@ def video(args):
             # RGB->BGR
             vis_img = vis_img[:, :, ::-1]
             start = time.time()
-            h = model.predictor(xp.expand_dims(xp.array(img), axis=0))
+            h = model.predictor(xp.expand_dims(xp.array(img, dtype=xp.float32), axis=0))
             prediction = F.softmax(h)
             if args.device >= 0:
                 prediction = xp.asnumpy(prediction[0].data)
