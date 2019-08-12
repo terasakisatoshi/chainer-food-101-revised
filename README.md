@@ -27,7 +27,7 @@ Classify category of food with [Chainer](https://chainer.org/)
 $ mkdir ~/dataset
 $ cd ~/dataset
 $ wget http://data.vision.ee.ethz.ch/cvl/food-101.tar.gz
-$ tar xfvz http://data.vision.ee.ethz.ch/cvl/food-101.tar.gz
+$ tar xfvz food-101.tar.gz
 ```
 
 - Then the structure of directory under this repository should be...
